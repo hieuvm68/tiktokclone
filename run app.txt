@@ -1,0 +1,4 @@
+backend
+
+cd sanity-backend
+sanity start
