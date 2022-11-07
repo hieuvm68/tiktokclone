@@ -11,5 +11,8 @@
       ]
     }
   ], //should add ".ts" if typescript project
-  "extends": "next/core-web-vitals"
+  "extends": "next/core-web-vitals",
+  "eslint-config-defaults": "^9.0.0",
+  "eslint-config-google": "^0.8.0",
+  "eslint-plugin-json": "^1.2.0"
 }
