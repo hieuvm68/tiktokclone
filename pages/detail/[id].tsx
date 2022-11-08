@@ -78,8 +78,8 @@ const Detail = ({ postDetails }: IProps) => {
     return (
         <>
             {post && (
-                <div className='flex w-full absolute left-0 top-0 bg-white flex-wrap lg:flex-nowrap'>
-                    <div className='relative flex-2 w-[1000px] lg:w-9/12 flex justify-center items-center bg-blurred-img bg-no-repeat bg-cover bg-center'>
+                <div className='flex flex-shrink-0 flex-grow-0 flex-[544px] w-full absolute left-0 top-0 bg-white flex-wrap lg:flex-nowrap'>
+                    <div className='relative flex-2 w-[1000px] lg:w-9/12 flex justify-center items-center bg-gradient-to-r from-purple-500 to-pink-500 bg-no-repeat bg-cover bg-center'>
                         <div className='opacity-90 absolute top-6 left-2 lg:left-6 flex gap-6 z-50'>
                             <p className='cursor-pointer ' onClick={() => router.back()}>
                                 <MdOutlineCancel className='text-white text-[35px] hover:opacity-90' />
@@ -136,13 +136,12 @@ const Detail = ({ postDetails }: IProps) => {
                                     </div>
                                 </div>
                             </Link>
-                            <div className='px-10'>
-                                <p className=' text-md text-gray-600'>{post.caption}</p>
+                            <div className='px-10  '>
+                                <p className='line-clamp-2 text-md text-gray-600 box-border overflow-hidden'>{post.caption}</p>
                             </div>
                             <div className='mt-10 px-10'>
                                 {userProfile && <LikeButton
                                     likes={post.likes}
-                                    flex='flex'
                                     handleLike={() => handleLike(true)}
                                     handleDislike={() => handleLike(false)}
                                 />}
