@@ -94,7 +94,7 @@ const VideoCard: NextPage<IProps> = ({ post }: IProps) => {
                     <Link href={`/detail/${postAt._id}`} >
                         <video
                             controls
-                            preload='flase'
+                            onSeeked="false"
                             poster={postAt.video.asset.url}
                             loop
                             ref={videoRef}
