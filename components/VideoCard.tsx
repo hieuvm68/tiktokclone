@@ -18,9 +18,9 @@ interface IProps {
 }
 const VideoCard: NextPage<IProps> = ({ post }: IProps) => {
     const [postAt, setPostAt] = useState(post)
-    // const [isHover, setIsHover] = useState(false);
+    const [isHover, setIsHover] = useState(false);
     const [playing, setPlaying] = useState(false);
-    // const [isVideoMuted, setIsVideoMuted] = useState(false);
+    const [isVideoMuted, setIsVideoMuted] = useState(false);
     const videoRef = useRef<HTMLVideoElement>(null)
     const { userProfile }: any = useAuthStore()
     const handleLike = async (like: boolean) => {
@@ -37,21 +37,21 @@ const VideoCard: NextPage<IProps> = ({ post }: IProps) => {
     }
     if (!postAt) return null;
 
-    // const onVideoPress = () => {
-    //     if (playing) {
-    //         videoRef?.current?.pause();
-    //         setPlaying(false);
-    //     }
-    //     else {
-    //         videoRef?.current?.play();
-    //         setPlaying(true);
-    //     }
-    // }
-    // useEffect(() => {
-    //     if (videoRef?.current) {
-    //         videoRef.current.muted = isVideoMuted
-    //     }
-    // }, [postAt, isVideoMuted])
+    const onVideoPress = () => {
+        if (playing) {
+            videoRef?.current?.pause();
+            setPlaying(false);
+        }
+        else {
+            videoRef?.current?.play();
+            setPlaying(true);
+        }
+    }
+    useEffect(() => {
+        if (videoRef?.current) {
+            videoRef.current.muted = isVideoMuted
+        }
+    }, [postAt, isVideoMuted])
 
     return (
         <div className='flex flex-col pb-6'>
@@ -87,15 +87,14 @@ const VideoCard: NextPage<IProps> = ({ post }: IProps) => {
             </div>
             <div className='lg:ml-20 flex gap-4 relative max-w-[1071px] '>
                 <div
-                    // onMouseEnter={() => setIsHover(true)}
-                    // onMouseLeave={() => setIsHover(false)}
+                    onMouseEnter={() => setIsHover(true)}
+                    onMouseLeave={() => setIsHover(false)}
                     className='flex-initial flex-row h-[calc(450px+(100vw-768px)/1152*100)] w-[calc(100%+400px)]'>
 
                     <Link href={`/detail/${postAt._id}`} >
                         <video
                             playsInline={true}
                             tabIndex={2}
-                            controls
                             crossOrigin="anonymous"
                             controlsList='nodownload noremoteplayback noseeking'
                             loop
@@ -107,7 +106,7 @@ const VideoCard: NextPage<IProps> = ({ post }: IProps) => {
                         </video>
 
                     </Link>
-                    {/* 
+
                     {isHover && (
                         <div className='absolute bottom-6 cursor-pointer left-8 md:left-14 lg:left-0 flex gap-10 lg:justify-between z-10'>
                             {!playing ? (
@@ -138,7 +137,7 @@ const VideoCard: NextPage<IProps> = ({ post }: IProps) => {
                             )
                             }
                         </div>
-                    )} */}
+                    )}
 
                 </div>
                 <div className=' mt-10 px-10'>
