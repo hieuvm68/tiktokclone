@@ -10,11 +10,13 @@ import LikeButton from './LikeButton'
 import useAuthStore from '../store/authStore'
 import { BASE_URL } from '../utils'
 import axios from 'axios'
+import { debounce } from 'lodash';
 
 
 
 interface IProps {
-    post: Video
+    post: Video,
+    itemIndex: number,
 }
 const VideoCard: NextPage<IProps> = ({ post }: IProps) => {
     const [postAt, setPostAt] = useState(post)
@@ -23,6 +25,8 @@ const VideoCard: NextPage<IProps> = ({ post }: IProps) => {
     const [isVideoMuted, setIsVideoMuted] = useState(false);
     const videoRef = useRef<HTMLVideoElement>(null)
     const { userProfile }: any = useAuthStore()
+    const [index, setIndex] = useState(0);
+
     const handleLike = async (like: boolean) => {
         if (userProfile) {
             const { data } = await axios.put(`${BASE_URL}/api/like`, {
@@ -37,21 +41,47 @@ const VideoCard: NextPage<IProps> = ({ post }: IProps) => {
     }
     if (!postAt) return null;
 
-    const onVideoPress = () => {
+    useEffect(() => {
+
+
+        window.addEventListener('scroll', debounce(handleScroll, 200))
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [])
+    // postAt, isVideoMuted
+
+    const startVideo = () => {
+        videoRef?.current?.pause();
+        setPlaying(false);
+    }
+
+    const pauseVideo = () => {
+        videoRef?.current?.play();
+        setPlaying(true);
+    }
+
+    const handleScroll = () => {
         if (playing) {
-            videoRef?.current?.pause();
-            setPlaying(false);
+            pauseVideo();
         }
         else {
-            videoRef?.current?.play();
-            setPlaying(true);
+            startVideo();
         }
     }
-    useEffect(() => {
-        if (videoRef?.current) {
-            videoRef.current.muted = isVideoMuted
+
+    const handleVideoPress = () => {
+        if (playing) {
+            startVideo();
+        } else {
+            pauseVideo();
         }
-    }, [postAt, isVideoMuted])
+    };
+
+
+
+
 
     return (
         <div className='flex flex-col pb-6'>
@@ -91,15 +121,14 @@ const VideoCard: NextPage<IProps> = ({ post }: IProps) => {
                     onMouseLeave={() => setIsHover(false)}
                     className='flex-initial flex-row h-[calc(450px+(100vw-768px)/1152*100)] w-[calc(100%+400px)]'>
 
-                    <Link href={`/detail/${postAt._id}`} tabIndex={1}>
-                        <video
 
-                            playsInline={true}
-                            tabIndex={2}
-                            crossOrigin="anonymous"
-                            controlsList='nodownload noremoteplayback noseeking'
+                    <Link href={`/detail/${postAt._id}`}  >
+                        <video
+                            id='myVideo'
+                            autoPlay
+                            muted
+                            onClick={handleVideoPress}
                             loop
-                            vocab='true'
                             ref={videoRef}
                             className='w-auto h-[100%] pr-3 cursor-pointer bottom-0 '
                             src={postAt.video.asset.url}
@@ -112,12 +141,12 @@ const VideoCard: NextPage<IProps> = ({ post }: IProps) => {
                     {isHover && (
                         <div className='absolute bottom-6 cursor-pointer left-8 md:left-14 lg:left-0 flex gap-10 lg:justify-between z-10'>
                             {!playing ? (
-                                <button onClick={onVideoPress}>
+                                <button onClick={handleVideoPress}>
                                     <BsFillPlayFill
                                         className='text-white text-2xl lg:text-4xl' />
                                 </button>
                             ) : (
-                                <button onClick={onVideoPress}>
+                                <button onClick={handleVideoPress}>
                                     <BsFillPauseFill
                                         className='text-white text-2xl lg:text-4xl'
                                     />
