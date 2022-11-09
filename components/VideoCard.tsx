@@ -91,15 +91,17 @@ const VideoCard: NextPage<IProps> = ({ post }: IProps) => {
                     onMouseLeave={() => setIsHover(false)}
                     className='flex-initial flex-row h-[calc(450px+(100vw-768px)/1152*100)] w-[calc(100%+400px)]'>
 
-                    <Link href={`/detail/${postAt._id}`} >
+                    <Link href={`/detail/${postAt._id}`} tabIndex={1}>
                         <video
+
                             playsInline={true}
                             tabIndex={2}
                             crossOrigin="anonymous"
                             controlsList='nodownload noremoteplayback noseeking'
                             loop
+                            vocab='true'
                             ref={videoRef}
-                            className='w-auto h-[100%] pr-3 cursor-pointer bottom-0'
+                            className='w-auto h-[100%] pr-3 cursor-pointer bottom-0 '
                             src={postAt.video.asset.url}
                         >
 
