@@ -95,6 +95,7 @@ const VideoCard: NextPage<IProps> = ({ post }: IProps) => {
                         <video
                             playsInline={true}
                             tabIndex={2}
+                            controls
                             crossOrigin="anonymous"
                             controlsList='nodownload noremoteplayback noseeking'
                             loop
