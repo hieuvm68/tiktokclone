@@ -99,7 +99,7 @@ const VideoCard: NextPage<IProps> = ({ post }: IProps) => {
                             controlsList='nodownload noremoteplayback noseeking'
                             loop
                             ref={videoRef}
-                            className='w-auto h-[auto] pr-3 cursor-pointer bottom-0'
+                            className='w-auto h-[100%] pr-3 cursor-pointer bottom-0'
                             src={postAt.video.asset.url}
                         >
 
