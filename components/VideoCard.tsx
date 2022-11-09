@@ -1,6 +1,6 @@
 import { NextPage } from 'next'
 import React, { useState, useEffect, useRef } from 'react'
-import { Video } from '../types'
+import { Video } from '../types';
 import Image from 'next/image'
 import Link from 'next/link'
 import { HiVolumeUp, HiVolumeOff } from "react-icons/hi"
@@ -95,6 +95,7 @@ const VideoCard: NextPage<IProps> = ({ post }: IProps) => {
                         <video
                             controls
                             preload='flase'
+                            poster={postAt.video.asset.url}
                             loop
                             ref={videoRef}
                             className='w-auto h-[100%] pr-3 cursor-pointer  '
