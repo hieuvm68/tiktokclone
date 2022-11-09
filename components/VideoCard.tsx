@@ -94,8 +94,6 @@ const VideoCard: NextPage<IProps> = ({ post }: IProps) => {
                     <Link href={`/detail/${postAt._id}`} >
                         <video
                             controls
-                            onSeeked="false"
-                            poster={postAt.video.asset.url}
                             loop
                             ref={videoRef}
                             className='w-auto h-[100%] pr-3 cursor-pointer  '
