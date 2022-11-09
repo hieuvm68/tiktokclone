@@ -78,8 +78,8 @@ const Detail = ({ postDetails }: IProps) => {
     return (
         <>
             {post && (
-                <div className='flex flex-shrink-0 flex-grow-0  w-full absolute left-0 top-0 bg-white flex-wrap lg:flex-nowrap'>
-                    <div className='relative w-10/12 flex justify-center items-center bg-black bg-cover bg-center'>
+                <div className='flex flex-shrink-0 flex-grow-0 flex-[544px] w-full absolute left-0 top-0 bg-white flex-wrap lg:flex-nowrap'>
+                    <div className='relative w-[1000px] lg:w-10/12 flex justify-center items-center bg-black bg-cover bg-center'>
                         <div className='opacity-90 absolute top-6 left-2 lg:left-6 flex gap-6 z-50'>
                             <p className='cursor-pointer ' onClick={() => router.back()}>
                                 <MdOutlineCancel className='text-white text-[35px] hover:opacity-90' />
@@ -118,7 +118,7 @@ const Detail = ({ postDetails }: IProps) => {
                             )}
                         </div> */}
                     </div>
-                    <div className='relative w-2/12 flex'>
+                    <div className='relative w-[1000px] md:w-[900px] lg:w-[700px]'>
                         <div className='lg:mt-20 mt-10'>
                             <Link href={`/profile/${post.postedBy._id}`}>
                                 <div className='flex gap-4 mb-4 bg-white w-full pl-10 cursor-pointer'>

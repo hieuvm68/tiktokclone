@@ -93,7 +93,6 @@ const VideoCard: NextPage<IProps> = ({ post }: IProps) => {
 
                     <Link href={`/detail/${postAt._id}`} >
                         <video
-
                             controls
                             loop
                             ref={videoRef}
