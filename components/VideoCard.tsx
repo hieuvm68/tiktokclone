@@ -155,7 +155,7 @@ const VideoCard: NextPage<IProps> = ({ post }: IProps) => {
                     <LengthComments
                         comments={post.comments}
                     />
-                    <FacebookShareButton url={`https://tiktokclone-olive.vercel.app/`}>
+                    <FacebookShareButton url={`https://tiktokclone-olive.vercel.app/detail/UckHRufVFepji8vDOz0FM`}>
 
                         <FacebookIcon size={40} />
                     </FacebookShareButton>
