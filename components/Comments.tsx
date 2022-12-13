@@ -79,6 +79,7 @@ const Comments = ({ comment, comments, setComment, addComment, isPostingComment 
                         (
                             <NoResults text='No comments yet!' />
                         )
+
                 }
 
             </div>
@@ -102,7 +103,9 @@ const Comments = ({ comment, comments, setComment, addComment, isPostingComment 
                     </div>
                 )
             }
+
         </div >
+
     )
 }
 

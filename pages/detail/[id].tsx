@@ -13,6 +13,7 @@ import LikeButton from '../../components/LikeButton';
 import useAuthStore from '../../store/authStore';
 import { Video } from '../../types';
 import axios from 'axios';
+import LengthComments from '../../components/LengthComment';
 
 interface IProps {
     postDetails: Video;
@@ -20,8 +21,6 @@ interface IProps {
 
 const Detail = ({ postDetails }: IProps) => {
     const [post, setPost] = useState(postDetails);
-    // const [isPlaying, setIsPlaying] = useState<boolean>(false);
-    // const [isVideoMuted, setIsVideoMuted] = useState<boolean>(false);
     const [isPostingComment, setIsPostingComment] = useState<boolean>(false);
     const [comment, setComment] = useState<string>('');
 
@@ -30,21 +29,6 @@ const Detail = ({ postDetails }: IProps) => {
 
     const { userProfile }: any = useAuthStore();
 
-    // const onVideoClick = () => {
-    //     if (isPlaying) {
-    //         videoRef?.current?.pause();
-    //         setIsPlaying(false);
-    //     } else {
-    //         videoRef?.current?.play();
-    //         setIsPlaying(true);
-    //     }
-    // };
-
-    // useEffect(() => {
-    //     if (post && videoRef?.current) {
-    //         videoRef.current.muted = isVideoMuted;
-    //     }
-    // }, [post, isVideoMuted]);
 
     const handleLike = async (like: boolean) => {
         if (userProfile) {
@@ -97,26 +81,8 @@ const Detail = ({ postDetails }: IProps) => {
                                     className=' h-full cursor-pointer'
                                 ></video>
                             </div>
-
-                            {/* <div className='absolute top-[45%] left-[40%]  cursor-pointer'>
-                                {!isPlaying && (
-                                    <button onClick={onVideoClick}>
-                                        <BsFillPlayFill className='text-white text-6xl lg:text-8xl' />
-                                    </button>
-                                )}
-                            </div> */}
                         </div>
-                        {/* <div className='absolute bottom-5 lg:bottom-10 right-5 lg:right-10  cursor-pointer'>
-                            {isVideoMuted ? (
-                                <button onClick={() => setIsVideoMuted(false)}>
-                                    <HiVolumeOff className='text-white text-3xl lg:text-4xl' />
-                                </button>
-                            ) : (
-                                <button onClick={() => setIsVideoMuted(true)}>
-                                    <HiVolumeUp className='text-white text-3xl lg:text-4xl' />
-                                </button>
-                            )}
-                        </div> */}
+
                     </div>
                     <div className='relative w-[1000px] md:w-[900px] lg:w-[700px]'>
                         <div className='lg:mt-20 mt-10'>
@@ -141,20 +107,35 @@ const Detail = ({ postDetails }: IProps) => {
                             <div className='px-10  '>
                                 <p className='line-clamp-2 text-md text-gray-600 box-border overflow-hidden'>{post.caption}</p>
                             </div>
-                            <div className='mt-10 px-10'>
-                                {userProfile && <LikeButton
-                                    likes={post.likes}
-                                    handleLike={() => handleLike(true)}
-                                    handleDislike={() => handleLike(false)}
-                                />}
+                            <div className='flex '>
+                                <div className='mt-10 px-5'>
+                                    {userProfile &&
+
+                                        <LikeButton
+                                            likes={post.likes}
+                                            handleLike={() => handleLike(true)}
+                                            handleDislike={() => handleLike(false)}
+                                        />
+                                    }
+                                </div>
+                                <div className='mt-10'>
+                                    <LengthComments
+                                        comments={post.comments}
+                                    />
+                                </div>
                             </div>
+
                             <Comments
+
+
                                 comment={comment}
                                 setComment={setComment}
                                 addComment={addComment}
                                 comments={post.comments}
                                 isPostingComment={isPostingComment}
+
                             />
+
                         </div>
                     </div>
                 </div>

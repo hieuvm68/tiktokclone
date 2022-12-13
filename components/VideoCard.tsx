@@ -3,14 +3,17 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Video } from '../types';
 import Image from 'next/image'
 import Link from 'next/link'
-import { HiVolumeUp, HiVolumeOff } from "react-icons/hi"
-import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs"
 import { GoVerified } from "react-icons/go"
 import LikeButton from './LikeButton'
 import useAuthStore from '../store/authStore'
 import { BASE_URL } from '../utils'
 import axios from 'axios'
 import { debounce } from 'lodash';
+import LengthComments from './LengthComment';
+import {
+    FacebookShareButton
+} from "react-share";
+import FacebookIcon from 'react-share/lib/FacebookIcon';
 
 
 
@@ -20,12 +23,10 @@ interface IProps {
 }
 const VideoCard: NextPage<IProps> = ({ post }: IProps) => {
     const [postAt, setPostAt] = useState(post)
-    const [isHover, setIsHover] = useState(false);
     const [playing, setPlaying] = useState(false);
     const [isVideoMuted, setIsVideoMuted] = useState(false);
     const videoRef = useRef<HTMLVideoElement>(null)
     const { userProfile }: any = useAuthStore()
-    const [index, setIndex] = useState(0);
 
     const handleLike = async (like: boolean) => {
         if (userProfile) {
@@ -39,34 +40,41 @@ const VideoCard: NextPage<IProps> = ({ post }: IProps) => {
         }
 
     }
+
     if (!postAt) return null;
 
     useEffect(() => {
 
-
+        if (videoRef?.current) {
+            videoRef.current.muted = !isVideoMuted;
+        }
         window.addEventListener('scroll', debounce(handleScroll, 200))
 
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-    }, [])
-    // postAt, isVideoMuted
+
+    }, [isVideoMuted, postAt])
 
     const startVideo = () => {
-        videoRef?.current?.pause();
+        videoRef?.current?.play();
         setPlaying(false);
+
     }
 
     const pauseVideo = () => {
-        videoRef?.current?.play();
+        videoRef?.current?.pause();
         setPlaying(true);
     }
 
     const handleScroll = () => {
         if (playing) {
             pauseVideo();
+            setIsVideoMuted(true)
         }
         else {
+            setIsVideoMuted(false)
+
             startVideo();
         }
     }
@@ -74,7 +82,9 @@ const VideoCard: NextPage<IProps> = ({ post }: IProps) => {
     const handleVideoPress = () => {
         if (playing) {
             startVideo();
+
         } else {
+
             pauseVideo();
         }
     };
@@ -113,22 +123,17 @@ const VideoCard: NextPage<IProps> = ({ post }: IProps) => {
                         </Link>
                     </div>
                 </div>
-
             </div>
             <div className='lg:ml-20 flex gap-4 relative max-w-[1071px] '>
                 <div
-                    onMouseEnter={() => setIsHover(true)}
-                    onMouseLeave={() => setIsHover(false)}
-                    className='flex-initial flex-row h-[calc(450px+(100vw-768px)/1152*100)] w-[calc(100%+400px)]'>
-
+                    className='flex-initial flex-row h-[calc(400px+(100vw-768px)/400*100)] w-[calc(100%+400px)]'>
 
                     <Link href={`/detail/${postAt._id}`}  >
                         <video
-                            id='myVideo'
                             autoPlay
-                            muted
                             onClick={handleVideoPress}
                             loop
+                            controls
                             ref={videoRef}
                             className='w-auto h-[100%] pr-3 cursor-pointer bottom-0 '
                             src={postAt.video.asset.url}
@@ -137,48 +142,23 @@ const VideoCard: NextPage<IProps> = ({ post }: IProps) => {
                         </video>
 
                     </Link>
-
-                    {isHover && (
-                        <div className='absolute bottom-6 cursor-pointer left-8 md:left-14 lg:left-0 flex gap-10 lg:justify-between z-10'>
-                            {!playing ? (
-                                <button onClick={handleVideoPress}>
-                                    <BsFillPlayFill
-                                        className='text-white text-2xl lg:text-4xl' />
-                                </button>
-                            ) : (
-                                <button onClick={handleVideoPress}>
-                                    <BsFillPauseFill
-                                        className='text-white text-2xl lg:text-4xl'
-                                    />
-                                </button>
-
-                            )
-                            }
-                            {isVideoMuted ? (
-                                <button onClick={() => setIsVideoMuted(false)}>
-                                    <HiVolumeOff
-                                        className='text-white text-2xl lg:text-4xl'
-                                    />
-                                </button>
-                            ) : (
-                                <button onClick={() => setIsVideoMuted(true)}>
-                                    <HiVolumeUp
-                                        className='text-white text-2xl lg:text-4xl' />
-                                </button>
-                            )
-                            }
-                        </div>
-                    )}
-
                 </div>
-                <div className=' mt-10 px-10'>
+                <div className='flex flex-col mt-10 px-10 justify-end '>
                     {userProfile && (
                         <LikeButton
                             likes={postAt.likes}
                             handleLike={() => handleLike(true)}
                             handleDislike={() =>
                                 handleLike(false)} />
+
                     )}
+                    <LengthComments
+                        comments={post.comments}
+                    />
+                    <FacebookShareButton url={`/profile/${postAt.postedBy._id}`}>
+
+                        <FacebookIcon size={40} />
+                    </FacebookShareButton>
                 </div>
             </div>
         </div>
@@ -194,3 +174,4 @@ export const getServerSideProps = async ({ params: { id }
     }
 }
 export default VideoCard
+
