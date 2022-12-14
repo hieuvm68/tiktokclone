@@ -24,8 +24,7 @@ const VideoCard: NextPage<IProps> = ({ post }: IProps) => {
     const [playing, setPlaying] = useState(false);
     const [isVideoMuted, setIsVideoMuted] = useState(false);
     const videoRef = useRef<HTMLVideoElement>(null)
-    const { userProfile }: any = useAuthStore()
-
+    const { userProfile, addUser }: any = useAuthStore()
     const handleLike = async (like: boolean) => {
         if (userProfile) {
             const { data } = await axios.put(`${BASE_URL}/api/like`, {
@@ -35,6 +34,9 @@ const VideoCard: NextPage<IProps> = ({ post }: IProps) => {
             })
             setPostAt({ ...postAt, likes: data.likes })
 
+        }
+        else {
+            alert('You must login to like,comment')
         }
 
     }
@@ -142,19 +144,28 @@ const VideoCard: NextPage<IProps> = ({ post }: IProps) => {
                     </Link>
                 </div>
                 <div className='flex flex-col mt-10 px-10 justify-end '>
-                    {userProfile && (
+                    {userProfile ? (
                         <LikeButton
                             likes={postAt.likes}
                             handleLike={() => handleLike(true)}
                             handleDislike={() =>
                                 handleLike(false)} />
 
-                    )}
+                    ) : (
+                        <LikeButton
+                            likes={postAt.likes}
+                            handleLike={() => handleLike(false)}
+                            handleDislike={() =>
+                                handleLike(false)} />
+
+
+                    )
+
+                    }
                     <LengthComments
                         comments={post.comments}
                     />
                     <ShareButton share={postAt._id} />
-
                 </div>
             </div>
         </div>

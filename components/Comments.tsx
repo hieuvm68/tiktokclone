@@ -2,7 +2,6 @@ import React, { Dispatch, SetStateAction } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { GoVerified } from 'react-icons/go'
-import { FaCommentDots } from 'react-icons/fa'
 
 import useAuthStore from '../store/authStore'
 import NoResults from './NoResults'

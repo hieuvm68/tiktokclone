@@ -4,8 +4,6 @@ import { GoVerified } from 'react-icons/go';
 import Image from 'next/image';
 import Link from 'next/link';
 import { MdOutlineCancel } from 'react-icons/md';
-import { BsFillPlayFill } from 'react-icons/bs';
-import { HiVolumeUp, HiVolumeOff } from 'react-icons/hi';
 
 import Comments from '../../components/Comments';
 import { BASE_URL } from '../../utils';
@@ -29,7 +27,10 @@ const Detail = ({ postDetails }: IProps) => {
     const router = useRouter();
 
     const { userProfile }: any = useAuthStore();
+    useEffect(() => {
+        setIsPostingComment(true);
 
+    }, [post.comments]);
 
     const handleLike = async (like: boolean) => {
         if (userProfile) {
