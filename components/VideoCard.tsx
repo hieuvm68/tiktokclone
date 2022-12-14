@@ -95,7 +95,7 @@ const VideoCard: NextPage<IProps> = ({ post }: IProps) => {
 
     return (
         <div className='flex flex-col pb-6'>
-            <div>
+            <div >
                 <div className=' flex gap-3 p-2 cursor-pointer font-semibold rounded-full'>
                     <div className='md:w-16 md:h-16 w-10 h-10'>
                         <Link href={`/profile/${postAt.postedBy._id}`}>
@@ -106,12 +106,14 @@ const VideoCard: NextPage<IProps> = ({ post }: IProps) => {
                                     className="rounded-full"
                                     src={postAt.postedBy.image}
                                     alt="profile phoot"
-                                    layout='responsive'
+                                    layout='fixed'
                                 />
                             </>
                         </Link>
                     </div>
-                    <div>
+
+                    <div className='flex flex-col'>
+
                         <Link href={`/profile/${postAt.postedBy._id}`}>
                             <div className='flex items-center gap-2'>
                                 <p className='flex gap-2 items-center md:text-md font-bold text-primary'>{postAt.postedBy.userName}
@@ -121,12 +123,16 @@ const VideoCard: NextPage<IProps> = ({ post }: IProps) => {
                                 <p className='capitalize text-[14px] font-medium text-xs text-primary hidden md:block '>{postAt.postedBy.userName}</p>
                             </div>
                         </Link>
+                        <p className='line-clamp-2 text-xs text-gray-600 font-bold box-border overflow-hidden'>{post.caption}</p>
                     </div>
+
+
                 </div>
+
             </div>
             <div className='lg:ml-20 flex gap-4 relative max-w-[1071px] '>
                 <div
-                    className='flex-initial flex-row h-[calc(400px+(100vw-768px)/400*100)] w-[calc(100%+400px)]'>
+                    className='flex-initial flex-row h-[calc(400px+(100vw-768px)/600*100)] w-[calc(100%+400px)]'>
 
                     <Link href={`/detail/${postAt._id}`}  >
                         <video
