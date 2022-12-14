@@ -10,10 +10,8 @@ import { BASE_URL } from '../utils'
 import axios from 'axios'
 import { debounce } from 'lodash';
 import LengthComments from './LengthComment';
-import {
-    FacebookShareButton
-} from "react-share";
-import FacebookIcon from 'react-share/lib/FacebookIcon';
+
+import ShareButton from './ShareButton';
 
 
 
@@ -155,10 +153,8 @@ const VideoCard: NextPage<IProps> = ({ post }: IProps) => {
                     <LengthComments
                         comments={post.comments}
                     />
-                    <FacebookShareButton url={`https://tiktokclone-olive.vercel.app/detail/${postAt._id}`}>
+                    <ShareButton share={postAt._id} />
 
-                        <FacebookIcon size={40} />
-                    </FacebookShareButton>
                 </div>
             </div>
         </div>

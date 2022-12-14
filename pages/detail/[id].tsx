@@ -14,6 +14,7 @@ import useAuthStore from '../../store/authStore';
 import { Video } from '../../types';
 import axios from 'axios';
 import LengthComments from '../../components/LengthComment';
+import ShareButton from '../../components/ShareButton';
 
 interface IProps {
     postDetails: Video;
@@ -107,7 +108,7 @@ const Detail = ({ postDetails }: IProps) => {
                             <div className='px-10  '>
                                 <p className='line-clamp-2 text-md text-gray-600 box-border overflow-hidden'>{post.caption}</p>
                             </div>
-                            <div className='flex '>
+                            <div className='flex mb-4 '>
                                 <div className='mt-10 px-5'>
                                     {userProfile &&
 
@@ -118,12 +119,18 @@ const Detail = ({ postDetails }: IProps) => {
                                         />
                                     }
                                 </div>
-                                <div className='mt-10'>
+                                <div className='mt-10 px-5'>
                                     <LengthComments
                                         comments={post.comments}
                                     />
                                 </div>
+
+
+                                <div className='mt-10'>
+                                    <ShareButton share={post._id} />
+                                </div>
                             </div>
+
 
                             <Comments
 
