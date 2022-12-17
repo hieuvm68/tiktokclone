@@ -1,44 +1,37 @@
-import React, { Dispatch, SetStateAction } from 'react'
+import React, { Dispatch, SetStateAction, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { GoVerified } from 'react-icons/go'
-
 import useAuthStore from '../store/authStore'
 import NoResults from './NoResults'
 import { IUser } from '../types'
-
-
 interface IProps {
-    isPostingComment: Boolean,
-    comment: string,
+    isPostingComment: Boolean;
+    comment: string;
     setComment: Dispatch<SetStateAction<string>>;
     addComment: (e: React.FormEvent) => void;
-    comments: IComment[]
+    comments: IComment[];
 }
-
 interface IComment {
-    comment: string,
+    comment: string;
     length?: number;
     _key: string;
-    postedBy: { _ref: string; _id: string }
+    postedBy: { _ref?: string; _id?: string };
 }
-
 const Comments = ({ comment, comments, setComment, addComment, isPostingComment }: IProps) => {
-
-    const { userProfile, allUsers } = useAuthStore();
-
+    const { allUsers, userProfile }: any = useAuthStore();
     return (
         <div className='border-t-2 border-gray-200 pt-4 px-1 bg-[#f8f8f8] border-b-2 lg:pb:0 pb:-[100px] '>
             <div className='overflow-scroll lg:h-[475px] '>
                 {
-                    comments?.length ? (
-                        comments.map((item, index) => (
+                    comments?.length > 0 ? (
+                        comments.map((item: IComment, idx: number) => (
                             <>
                                 {allUsers.map((user: IUser) => (
-                                    user._id === item.postedBy._id || item.postedBy._ref
+                                    user._id === (item.postedBy._ref || item.postedBy._id)
 
                                 ) && (
-                                        <div className='p-2 items-center ' key={index}>
+                                        <div className='p-2 items-center ' key={idx}>
                                             <Link href={`/profile/${user._id}`}>
                                                 <div className='flex items-start gap-3'>
                                                     <div className='w-8 h-8 '>

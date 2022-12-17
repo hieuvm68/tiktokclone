@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { GoVerified } from 'react-icons/go';
 import Image from 'next/image';
@@ -20,18 +20,13 @@ interface IProps {
 
 const Detail = ({ postDetails }: IProps) => {
     const [post, setPost] = useState(postDetails);
+
     const [isPostingComment, setIsPostingComment] = useState<boolean>(false);
     const [comment, setComment] = useState<string>('');
 
     const videoRef = useRef<HTMLVideoElement>(null);
     const router = useRouter();
-
     const { userProfile }: any = useAuthStore();
-    useEffect(() => {
-        setIsPostingComment(true);
-
-    }, [post.comments]);
-
     const handleLike = async (like: boolean) => {
         if (userProfile) {
             const res = await axios.put(`${BASE_URL}/api/like`, {
@@ -60,7 +55,6 @@ const Detail = ({ postDetails }: IProps) => {
             }
         }
     };
-
     return (
         <>
             {post && (
@@ -134,14 +128,11 @@ const Detail = ({ postDetails }: IProps) => {
 
 
                             <Comments
-
-
                                 comment={comment}
                                 setComment={setComment}
                                 addComment={addComment}
                                 comments={post.comments}
                                 isPostingComment={isPostingComment}
-
                             />
 
                         </div>
